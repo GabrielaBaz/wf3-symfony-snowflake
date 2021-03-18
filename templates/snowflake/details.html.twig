@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowflake Details{% endblock %}
+
+{% block body %}
+
+    <h2>{{ snowflake.name }}</h2>
+    <h3>My lucky number is: {{ snowflake.luckyNumber }}</h3>
+    <p>{{ snowflake.description }}</p>
+    <p><em>{{ snowflake.createdAt|date("F j, Y, g:i a") }}</em></p>
+
+ {% endblock %}

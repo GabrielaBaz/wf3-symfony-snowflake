@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a Snowflake{% endblock %}
+
+{% block body %}
+	<h3>Here is my creation form</h3>
+	
+	{{ include ('./common/_form.html.twig',{submitButtonText:'Create a snowflake'}) }}
+
+
+{% endblock %}

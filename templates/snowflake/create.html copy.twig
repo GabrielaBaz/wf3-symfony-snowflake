@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a Snowflake{% endblock %}
+
+{% block body %}
+	<h3>Here is my creation form</h3>
+	{# The automatic way using twig #}
+	{# {{ form_start(form) }}
+		{{ form_errors(form) }}
+		{{ form_widget(form) }}
+		<input type="submit" value="Create a snowflake"/>
+	{{ form_end(form) }} #}
+
+	{# The manual way that gives me more control #}
+
+	{{ form_start(form) }}
+	{# the dangerous line is just for an example. This is dangereous because it exposes us to the xss attack #}
+	{# {{ dangerous|raw }} #}
+	<div class="errors">
+		{{ form_errors(form) }}
+	</div>
+	<div class="form-row">
+		<div class="form-col">
+			{{ form_row(form.name) }}
+		</div>
+		<div class="form-col">
+			{{ form_label(form.lucky_number)}}	
+			{{ form_widget(form.lucky_number) }} 
+			{# We use form_widget to show only the input box #}
+		</div>
+		<div class="form-col">
+			{{ form_row(form.description) }}
+		</div>
+		
+		<input type="submit" class="btn btn-success">
+	</div>
+	{{ form_end(form) }}
+
+{% endblock %}
