@@ -16,6 +16,13 @@
     <body>
         {% include './common/navbar.html.twig' %}
         {% include './common/header.html.twig' %}
+        {# Code to show the app.flashes messages. este es un array que existe en todos lados en l'affichage de twig
+        solo se puede ocupar en twig #}
+            {% for type,messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert {{ type }}"> {{ message }}</div>
+                {% endfor %}
+            {% endfor %}
         {% block body %}{% endblock %}
         {% include './common/footer.html.twig' %}
     </body>

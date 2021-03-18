@@ -542,6 +542,31 @@ If we use include as a function to pass a parameter, we use {{}}
 {{ include ('./common/_form.html.twig',{submitButtonText:'Create a snowflake'}) }}
 ```
 
+### Delete
+
+Passing the id to delete via the get method is very unsafe, it´s better to create a form with hidden fields.
+
+csrf_token es diferente para cada botón delete.
+
+## Symfony access control
+
+Sur security.yaml
+We can include the permits in the documentation via @IsGranted() OR @Security()
+
+```php
+ /**
+     * @Route("/snowflake/delete/{id<\d+>}",name="app_snowflake_delete", methods="DELETE")
+     * @IsGranted("ROLE_ADMIN, OWN_USER")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+```
+
+Dans twig to show/hide elements based on the role of the user
+
+```php
+{% if app.user is same as(snowflake.author) %}
+```
+
 ## Troubleshooting Webpack
 
 Bootstrap stopped working and the webpack.config.js file is showing an error.
@@ -564,7 +589,7 @@ symfony composer update
 - webpage lifecycle: existance, ...
 
 - Cambiar los primary, secondary, warning, etc colors de bootstrap
-
+- Using a hidden field to delete a record from a DB to make sure that the person who deleted really wanted to delete the record
 - _emet_
 
 - removebg.com

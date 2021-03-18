@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\Snowflake;
 use App\Form\SnowflakeType;
 use App\Repository\SnowflakeRepository;
+use Doctrine\Common\Annotations\Annotation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+
 
 class SnowflakeController extends AbstractController
 {
@@ -96,12 +100,26 @@ class SnowflakeController extends AbstractController
     }
 
     /**
-     * @Route("/snowflake/delete/{id<\d+>}",name="app_snowflake_delete")
+     * @Route("/snowflake/delete/{id<\d+>}",name="app_snowflake_delete", methods="DELETE")
      */
     public function delete(Snowflake $snowflake, Request $request, EntityManagerInterface $manager): Response
     {
-        $manager->remove($snowflake);
-        $manager->flush();
+        //Verifier le token
+
+        //We generate the same token in the controler with the same code 'snowflake_deletion_' . $snowflake->getId() and
+        //then we compare it to the one that comes from the form:  $request->request->get('csrf_token')
+        if ($this->isCsrfTokenValid(
+            'snowflake_deletion_' . $snowflake->getId(),
+            $request->request->get('csrf_token')
+        )) {
+            $manager->remove($snowflake);
+            $manager->flush();
+
+            $this->addFlash('success', 'Your snowflake has been deleted successfully.');
+        } else {
+
+            //Si hay error pasar otro mensaje y crear una página de error en ./common/ para mostrarlo
+        }
         return $this->redirectToRoute('app_snowflake');
     }
 }

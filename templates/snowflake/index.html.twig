@@ -18,7 +18,14 @@
    <div class="buttons">
     <a class="btn btn-primary" href="{{ path('app_snowflake_id', {id: snowflake.id}) }}">Details</a>
     <a class="btn btn-primary" href="{{ path('app_snowflake_edit', {id: snowflake.id}) }}">Edit</a>
-    <a class="btn btn-danger" href="{{ path('app_snowflake_delete', {id: snowflake.id}) }}">Delete</a>
+    {# Passing the id to delete via the get method is very unsafe, it´s better to create a form with hidden fields,
+    so we comment the link and add the form #}
+    {# <a class="btn btn-danger" href="{{ path('app_snowflake_delete', {id: snowflake.id}) }}">Delete</a> #}
+    <form action="{{path('app_snowflake_delete',{id:snowflake.id})}}" method="DELETE">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="csrf_token" value="{{csrf_token('snowflake_deletion_'~ snowflake.id)}}">
+    <input class="btn btn-danger" type="submit" value="Delete" name="">
+    </form>
     </div>
     </div>
 
